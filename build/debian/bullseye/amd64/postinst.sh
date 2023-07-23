@@ -7,7 +7,7 @@ if [ "$(stat --format '%U' /usr/local/ipchanger)" != 'ipchanger' ]; then
 fi
 
 if [ "$(stat --format '%U' /var/log/ipchanger)" != 'ipchanger' ]; then
-    chown -R root:root /var/log/ipchanger
+    chown -R ipchanger:ipchanger /var/log/ipchanger
 fi
 
 mkdir -p /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64
