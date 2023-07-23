@@ -1,5 +1,5 @@
 if ! id -u ipchanger > /dev/null 2>&1; then
-    adduser --quiet --system --group --home /usr/local/ipchanger ipchanger
+    useradd --home-dir /etc/ipchanger --system ipchanger
 
     chown -R ipchanger:ipchanger /usr/local/ipchanger
 
@@ -17,5 +17,5 @@ if [ ! -f /etc/ipchanger/ipchanger.json ]; then
 fi
 
 if [ ! -f /usr/local/ipchanger/.aws/credentials ]; then
-    cp /usr/share/ipchanger/credentials /usr/local/ipchanger/.aws/credentials
+    cp /usr/share/ipchanger/credentials /etc/ipchanger/.aws/credentials
 fi
