@@ -27,27 +27,21 @@ jobs:
       run: |
         mkdir -p debian/amd64/etc/ipchanger
         mkdir -p debian/amd64/etc/systemd/system/multi-user.target.wants
-        mkdir -p debian/amd64/var/log/ipchanger
-        mkdir -p debian/amd64/usr/local/ipchanger/lib
         mkdir -p debian/amd64/usr/local/ipchanger/.aws
+        mkdir -p debian/amd64/usr/local/ipchanger/lib
+        mkdir -p debian/amd64/usr/share/ipchanger
         mkdir -p debian/amd64/DEBIAN
-        cp build/debian/bullseye/amd64/ipchangerd.service debian/amd64/etc/systemd/system
-        ln -s debian/amd64/etc/systemd/system/ipchangerd.service debian/amd64/etc/systemd/system/multi-user.target.wants/ipchangerd.service
-        cp build/ipchanger.json debian/amd64/etc/ipchanger
-        cp build/logging.properties debian/amd64/etc/ipchanger
+        cp LICENSE debian/amd64/usr/local/ipchanger
         cp target/ipchanger-daemon*.jar debian/amd64/usr/local/ipchanger/lib
         cp target/lib/*.jar debian/amd64/usr/local/ipchanger/lib
-        cp LICENSE debian/amd64/usr/local/ipchanger
-        echo -e "[default]" > debian/amd64/usr/local/ipchanger/.aws/credentials
-        echo -e "aws_access_key_id = " >> debian/amd64/usr/local/ipchanger/.aws/credentials
-        echo -e "aws_secret_access_key =" >> debian/amd64/usr/local/ipchanger/.aws/credentials
-        echo -e "adduser --quiet --system --group --home /usr/local/ipchanger ipchanger" > debian/amd64/DEBIAN/postinst
-        echo -e "chown -R ipchanger:ipchanger /usr/local/ipchanger" >> debian/amd64/DEBIAN/postinst
-        echo -e "chown -R ipchanger:ipchanger /var/log/ipchanger" >> debian/amd64/DEBIAN/postinst
-        echo -e "mkdir /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64" >> debian/amd64/DEBIAN/postinst
-        echo -e "ln -s /usr/lib/jvm/java-11-openjdk-amd64/lib/server /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64/" >> debian/amd64/DEBIAN/postinst
+        cp build/debian/bullseye/amd64/ipchangerd.service debian/amd64/etc/systemd/system
+        ln -s debian/amd64/etc/systemd/system/ipchangerd.service debian/amd64/etc/systemd/system/multi-user.target.wants/ipchangerd.service
+        cp build/ipchanger.json debian/amd64/usr/share/ipchanger
+        cp build/logging.properties debian/amd64/usr/sahre/ipchanger
+        cp build/aws/credentials debian/amd64/usr/share/ipchanger       
+        cp build/debian/bullseye/amd64/postinst.sh debian/amd64/DEBIAN/postinst
         chmod +x debian/amd64/DEBIAN/postinst
-        
+
     - name: Build Debian 11 package (amd64)
       uses: jiro4989/build-deb-action@v3
       with:
