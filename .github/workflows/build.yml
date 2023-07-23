@@ -29,7 +29,7 @@ jobs:
         mkdir -p debian/amd64/etc/ipchanger/.aws
         mkdir -p debian/amd64/usr/local/ipchanger/lib
         mkdir -p debian/amd64/usr/share/ipchanger
-        mkdir -p debian/amd64/var/ipchanger
+        mkdir -p debian/amd64/var/log/ipchanger
         mkdir -p debian/amd64/DEBIAN
         cp LICENSE debian/amd64/usr/local/ipchanger
         cp target/ipchanger-daemon*.jar debian/amd64/usr/local/ipchanger/lib
