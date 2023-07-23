@@ -16,6 +16,6 @@ if [ ! -f /etc/ipchanger/ipchanger.json ]; then
     cp /usr/share/ipchanger/ipchanger.json /etc/ipchanger/ipchanger.json
 fi
 
-if [ ! -f /usr/local/ipchanger/.aws/credentials ]; then
+if [ ! -f /etc/ipchanger/.aws/credentials ]; then
     cp /usr/share/ipchanger/credentials /etc/ipchanger/.aws/credentials
 fi
