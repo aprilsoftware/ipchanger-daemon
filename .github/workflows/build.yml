@@ -37,7 +37,7 @@ jobs:
         cp build/debian/bullseye/amd64/ipchangerd.service debian/amd64/etc/systemd/system
         ln -s debian/amd64/etc/systemd/system/ipchangerd.service debian/amd64/etc/systemd/system/multi-user.target.wants/ipchangerd.service
         cp build/ipchanger.json debian/amd64/usr/share/ipchanger
-        cp build/logging.properties debian/amd64/usr/sahre/ipchanger
+        cp build/logging.properties debian/amd64/usr/share/ipchanger
         cp build/aws/credentials debian/amd64/usr/share/ipchanger       
         cp build/debian/bullseye/amd64/postinst.sh debian/amd64/DEBIAN/postinst
         chmod +x debian/amd64/DEBIAN/postinst
