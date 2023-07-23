@@ -2,11 +2,11 @@ if [ ! id -u ipchanger > /dev/null 2>&1 ]; then
     useradd --home-dir /etc/ipchanger --system ipchanger
 fi
 
-if [ ! "$(stat --format '%U' /usr/local/ipchanger)" == 'ipchanger' ]; then
+if [ "$(stat --format '%U' /usr/local/ipchanger)" != 'ipchanger' ]; then
     chown -R ipchanger:ipchanger /usr/local/ipchanger
 fi
 
-if [ ! "$(stat --format '%U' /var/log/ipchanger)" == 'ipchanger' ]; then
+if [ "$(stat --format '%U' /var/log/ipchanger)" != 'ipchanger' ]; then
     chown -R root:root /var/log/ipchanger
 fi
 
