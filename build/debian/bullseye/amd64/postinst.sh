@@ -8,7 +8,7 @@ fi
 
 mkdir -p /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64
 
-if [ ! -L /usr/lib/jvm/java-11-openjdk-amd64/lib/server ]; then
+if [ ! -L /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64/server ]; then
     ln -s /usr/lib/jvm/java-11-openjdk-amd64/lib/server /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64/
 fi
 
