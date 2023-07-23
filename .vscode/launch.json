@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "java",
+            "name": "IpCApp",
+            "request": "launch",
+            "mainClass": "com.aprilsoftware.ipchanger.IpCApp",
+            "args": "etc/ipchanger.json",
+            "vmArgs": "-Djava.util.logging.config.file=etc/logging.properties"
+        }
+    ]
+}

@@ -1,0 +1,70 @@
+name: ipchanger-daemon@master
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        server-id: github
+        settings-path: ${{ github.workspace }}
+
+    - name: Build IP Changer Daemon
+      run: |
+        mvn -B install --file pom.xml
+      
+    - name: Create Debian package (amd64)
+      run: |
+        mkdir -p debian/amd64/etc/ipchanger
+        mkdir -p debian/amd64/etc/systemd/system/multi-user.target.wants
+        mkdir -p debian/amd64/var/log/ipchanger
+        mkdir -p debian/amd64/usr/local/ipchanger/lib
+        mkdir -p debian/amd64/usr/local/ipchanger/.aws
+        mkdir -p debian/amd64/DEBIAN
+        cp build/debian/bullseye/amd64/ipchangerd.service debian/amd64/etc/systemd/system
+        ln -s debian/amd64/etc/systemd/system/ipchangerd.service debian/amd64/etc/systemd/system/multi-user.target.wants/ipchangerd.service
+        cp build/ipchanger.json debian/amd64/etc/ipchanger
+        cp build/logging.properties debian/amd64/etc/ipchanger
+        cp target/ipchanger-daemon*.jar debian/amd64/usr/local/ipchanger/lib
+        cp target/lib/*.jar debian/amd64/usr/local/ipchanger/lib
+        cp LICENSE debian/amd64/usr/local/ipchanger
+        echo -e "[default]" > debian/amd64/usr/local/ipchanger/.aws/credentials
+        echo -e "aws_access_key_id = " >> debian/amd64/usr/local/ipchanger/.aws/credentials
+        echo -e "aws_secret_access_key =" >> debian/amd64/usr/local/ipchanger/.aws/credentials
+        echo -e "adduser --quiet --system --group --home /usr/local/ipchanger ipchanger" > debian/amd64/DEBIAN/postinst
+        echo -e "chown -R ipchanger:ipchanger /usr/local/ipchanger" >> debian/amd64/DEBIAN/postinst
+        echo -e "chown -R ipchanger:ipchanger /var/log/ipchanger" >> debian/amd64/DEBIAN/postinst
+        echo -e "mkdir /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64" >> debian/amd64/DEBIAN/postinst
+        echo -e "ln -s /usr/lib/jvm/java-11-openjdk-amd64/lib/server /usr/lib/jvm/java-11-openjdk-amd64/lib/amd64/" >> debian/amd64/DEBIAN/postinst
+        chmod +x debian/amd64/DEBIAN/postinst
+        
+    - name: Build Debian 11 package (amd64)
+      uses: jiro4989/build-deb-action@v3
+      with:
+        package: ipchanger-daemon
+        package_root: debian/amd64
+        maintainer: cedric.nanni@aprilsoftware.com
+        version: ${{ github.ref }}
+        arch: 'amd64'
+        depends: 'openjdk-11-jre-headless, jsvc'
+        desc: 'IP Changer Daemon'
+
+    - name: Upload Debian 11 package (amd64)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ipchanger-daemon_${{ github.event.release.tag_name }}_amd64.deb
+        asset_name: ipchanger-daemon_${{ github.event.release.tag_name }}_amd64_bullseye.deb
+        asset_content_type: application/octet-stream

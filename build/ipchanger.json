@@ -1,0 +1,18 @@
+{
+	"delay": 0,
+	"frequency": 5000,
+	"url": "https://api.ipify.org",
+	"securityGroups": [
+		{
+			"groupId": "sg-xxxxxxxxxxxxxx",
+			"region": "eu-central-1",
+			"permissions": [
+				{
+					"ipProtocol": "tcp",
+					"fromPort": 22,
+					"toPort": 22
+				}
+			]
+		}	
+	]
+}
