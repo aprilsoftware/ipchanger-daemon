@@ -48,7 +48,7 @@ Create a file named ipchanger.json (in the ipchanger-daemon folder)
 
 # Run it
 
-    java -jar target/ipchanger-daemon.jar ../ipchanger.json
+    java -jar target/ipchanger-daemon.jar ipchanger.json
 
 
 # Run it as a daemon on Linux
