@@ -8,9 +8,9 @@ It could be helpfull when you want to access your EC2 VMs only from your dynamic
 
 Java 11+, maven and git are required to build and compile the source.
 
-> git clone https://github.com/aprilsoftware/ipchanger-daemon.git
-> cd ipchanger-daemon
-> mvn package
+    git clone https://github.com/aprilsoftware/ipchanger-daemon.git
+    cd ipchanger-daemon
+    mvn package
 
 The target folder contains the ipchanger-daemon.jar executable and the required libraries.
 
@@ -18,9 +18,9 @@ The target folder contains the ipchanger-daemon.jar executable and the required 
 
 ipchanger-daemon uses the AWS API java library from Amazon which requires the credentials to be set using the credentials file in the .aws folder. The .aws folder must be located in the current folder of the application.
 
-> [default]
-> aws_access_key_id = xxx
-> aws_secret_access_key = xxx
+    [default]
+    aws_access_key_id = xxx
+    aws_secret_access_key = xxx
 
 # Configure the security groups
 
