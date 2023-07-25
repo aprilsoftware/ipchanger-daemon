@@ -32,7 +32,7 @@ Create a file named ipchanger.json (in the ipchanger-daemon folder)
     	"url": "https://api.ipify.org",
     	"securityGroups": [
 		    {
-    			"groupId": "sg-xxxxxxxxxxxxxx",
+                "groupId": "sg-xxxxxxxxxxxxxx",
 			    "region": "eu-central-1",
 			    "permissions": [
     				{
