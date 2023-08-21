@@ -60,3 +60,5 @@ You can run ipchanger-changer as a daemon using [jsvc](https://commons.apache.or
 
 You can download the latest Debian package from the [release page](https://github.com/aprilsoftware/ipchanger-daemon/releases).
 
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
