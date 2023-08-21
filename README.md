@@ -1,5 +1,3 @@
-theme: Architect
-
 # ipchanger-daemon
 
 ipchanger-daemon is a deamon that automatically updates AWS security group rules with your current public dynamic IP address.
