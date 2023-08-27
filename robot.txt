@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aprilsoftware.github.io/ipchanger-daemon/sitemap.txt
