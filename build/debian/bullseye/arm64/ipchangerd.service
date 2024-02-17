@@ -1,0 +1,26 @@
+[Unit]
+Description=IP Changer Daemon
+After=network.target
+
+[Service]
+Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64
+Environment=IPCHANGER_HOME=/usr/local/ipchanger
+Environment=IPCHANGER_ETC=/etc/ipchanger
+Environment=IPCHANGER_VAR=/var/log/ipchanger
+Environment=IPCHANGER_DAEMON=com.aprilsoftware.ipchanger.IpCDaemon
+Environment=CLASS_PATH=${IPCHANGER_HOME}/lib/ipchanger-daemon-1.0.jar
+Environment=JAVA_OPTS="-Xmx1024m"
+Environment=PID=/var/run/ipchangerd.pid
+Environment=ARGS=${IPCHANGER_ETC}/ipchanger.json
+Environment=USER="ipchanger"
+Environment=LOG_OUT=${IPCHANGER_VAR}/ipchanger.out
+Environment=LOG_ERR=${IPCHANGER_VAR}/ipchanger.err
+
+ExecStart=/bin/bash -c "/usr/bin/jsvc -cwd ${IPCHANGER_HOME} -java-home ${JAVA_HOME} -Djava.util.logging.config.file=${IPCHANGER_ETC}/logging.properties -cp ${CLASS_PATH} ${JAVA_OPTS} -user ${USER} -outfile ${LOG_OUT} -errfile ${LOG_ERR} -pidfile ${PID} ${IPCHANGER_DAEMON} ${ARGS}"
+
+ExecStop=/bin/bash -c "/usr/bin/jsvc -pidfile $PID -stop ${IPCHANGER_DAEMON}"
+
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
