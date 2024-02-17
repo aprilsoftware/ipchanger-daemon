@@ -1,4 +1,4 @@
-if [ ! id -u ipchanger > /dev/null 2>&1 ]; then
+if [[ $(getent passwd ipchanger) = "" ]]; then
     useradd --home-dir /etc/ipchanger --system ipchanger
 fi
 
