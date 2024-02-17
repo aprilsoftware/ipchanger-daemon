@@ -1,4 +1,4 @@
-if [[ $(getent passwd ipchanger) = "" ]]; then
+if [ "$(getent passwd ipchanger)" = "" ]; then
     useradd --home-dir /etc/ipchanger --system ipchanger
 fi
 
