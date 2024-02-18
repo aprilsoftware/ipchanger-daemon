@@ -10,12 +10,6 @@ if [ "$(stat --format '%U' /var/log/ipchanger)" != 'ipchanger' ]; then
     chown -R ipchanger:ipchanger /var/log/ipchanger
 fi
 
-#mkdir -p /usr/lib/jvm/java-17-openjdk-amd64/lib/amd64
-
-#if [ ! -L /usr/lib/jvm/java-17-openjdk-amd64/lib/amd64/server ]; then
-#    ln -s /usr/lib/jvm/java-17-openjdk-amd64/lib/server /usr/lib/jvm/java-17-openjdk-amd64/lib/amd64/
-#fi
-
 if [ ! -f /etc/ipchanger/ipchanger.json ]; then
     cp /usr/share/ipchanger/ipchanger.json /etc/ipchanger/ipchanger.json
 fi
