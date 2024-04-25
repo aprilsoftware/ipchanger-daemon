@@ -129,16 +129,13 @@ public class IpCService
         @Override
         public void run()
         {
-            synchronized(this)
+            if (processing)
             {
-                if (processing)
-                {
-                    return;
-                }
-                else
-                {
-                    processing = true;
-                }
+                return;
+            }
+            else
+            {
+                processing = true;
             }
             
             try
