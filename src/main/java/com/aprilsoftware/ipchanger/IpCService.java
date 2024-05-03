@@ -177,9 +177,9 @@ public class IpCService
 
             if (!newIp.equals(currentIp))
             {
-                currentIp = newIp;
+                ipChanger.changeIp(newIp);
 
-                ipChanger.changeIp(currentIp);
+                currentIp = newIp;
 
                 LOGGER.log(Level.INFO, "IP changed to " + currentIp);
             }
