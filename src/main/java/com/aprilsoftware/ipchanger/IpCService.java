@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public class IpCService
 {
     private static final Logger LOGGER = Logger.getLogger(IpCService.class.getName());
-    
+
     private final String[] args;
     private Timer timer;
     private boolean processing;
@@ -164,10 +164,10 @@ public class IpCService
     {
         String newIp;
 
+        newIp = ipDiscovery.discoverIp();
+
         if (currentIp == null)
         {
-            newIp = ipDiscovery.discoverIp();
-
             ipChanger.changeIp(newIp);
 
             currentIp = newIp;
@@ -176,8 +176,6 @@ public class IpCService
         }
         else
         {
-            newIp = ipDiscovery.discoverIp();
-
             if (!newIp.equals(currentIp))
             {
                 ipChanger.changeIp(newIp);
