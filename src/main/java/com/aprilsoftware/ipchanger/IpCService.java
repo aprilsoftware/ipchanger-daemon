@@ -11,7 +11,6 @@ public class IpCService
 
     private final String[] args;
     private Timer timer;
-    private boolean processing;
     private IpDiscovery ipDiscovery;
     private IpChanger ipChanger;
     private String currentIp;
@@ -111,8 +110,6 @@ public class IpCService
 
             timer = null;
 
-            processing = false;
-
             ipDiscovery = null;
 
             ipChanger = null;
@@ -130,15 +127,6 @@ public class IpCService
         @Override
         public void run()
         {
-            if (processing)
-            {
-                return;
-            }
-            else
-            {
-                processing = true;
-            }
-            
             try
             {
                 changeIp();
@@ -152,10 +140,6 @@ public class IpCService
                 catch (Throwable th)
                 {
                 }
-            }
-            finally
-            {
-                processing = false;
             }
         }
     }
