@@ -13,6 +13,7 @@ public class IpCConfig
     private long delay;
     private long frequency;
     private URL url;
+    private boolean verbose;
 
     public IpCConfig()
     {
@@ -47,6 +48,16 @@ public class IpCConfig
     public void setURL(URL url)
     {
         this.url = url;
+    }
+
+    public boolean isVerbose()
+    {
+        return verbose;
+    }
+
+    public void setVerbose(boolean verbose)
+    {
+        this.verbose = verbose;
     }
 
     public List<IpCSecurityGroup> getSecurityGroups()

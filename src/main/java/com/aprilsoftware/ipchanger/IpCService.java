@@ -14,6 +14,7 @@ public class IpCService
     private IpDiscovery ipDiscovery;
     private IpChanger ipChanger;
     private String currentIp;
+    private boolean verbose;
 
     public IpCService(String[] args)
     {
@@ -45,6 +46,8 @@ public class IpCService
             ipDiscovery = new IpDiscovery(config);
 
             ipChanger = new IpChanger(config);
+
+            verbose = config.isVerbose();
         }
     }
 
@@ -127,6 +130,11 @@ public class IpCService
         @Override
         public void run()
         {
+            if (verbose)
+            {
+                LOGGER.log(Level.INFO, "Checking new IP...");
+            }
+
             try
             {
                 changeIp();
@@ -140,6 +148,11 @@ public class IpCService
                 catch (Throwable th)
                 {
                 }
+            }
+
+            if (verbose)
+            {
+                LOGGER.log(Level.INFO, "IP Checked");
             }
         }
     }
