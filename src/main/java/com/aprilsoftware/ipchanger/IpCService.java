@@ -74,6 +74,8 @@ public class IpCService
 
                 ipChanger = new IpChanger(config);
 
+                verbose = config.isVerbose();
+
                 timer.schedule(new IpChangerTask(), config.getDelay(), config.getFrequency());
             }
         }
