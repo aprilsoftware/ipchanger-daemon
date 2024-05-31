@@ -30,6 +30,7 @@ Create a file named ipchanger.json (in the ipchanger-daemon folder)
     	"delay": 0,
     	"frequency": 5000,
     	"url": "https://api.ipify.org",
+		"verbose": false,
     	"securityGroups": [
 		    {
                 "groupId": "sg-xxxxxxxxxxxxxx",
