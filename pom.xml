@@ -9,11 +9,10 @@
   <version>2.0</version>
 
   <name>ipchanger-daemon</name>
-  <url>https://www.aprilsoftware.com</url>
+  <url>https://aprilsoftware.github.io/ipchanger-daemon/</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>11</maven.compiler.release>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
@@ -72,7 +71,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
