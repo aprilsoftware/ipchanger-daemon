@@ -2,17 +2,40 @@
 	"delay": 0,
 	"frequency": 5000,
 	"url": "https://api.ipify.org",
-	"securityGroups": [
+	"verbose": false,
+	"providers": 
+	[
 		{
-			"groupId": "sg-xxxxxxxxxxxxxx",
-			"region": "eu-central-1",
-			"permissions": [
+			"type": "aws",
+			"securityGroups": [
 				{
-					"ipProtocol": "tcp",
-					"fromPort": 22,
-					"toPort": 22
+					"groupId": "sg-xxxxxxxxxxxxxx",
+					"region": "eu-central-1",
+					"permissions": [
+						{
+							"ipProtocol": "tcp",
+							"fromPort": 22,
+							"toPort": 22
+						}
+					]
+				}	
+			]
+		},
+		{
+			"type": "ovh",
+		    "endpoint": "eu",
+		    "appKey": "xxxx",
+		    "appSecret": "xxxx",
+		    "consumerKey": "xxxx",
+		    "ip": "100.0.0.1",
+		    "firewallRules": [
+				{
+					"sequence": 1,
+					"action": "permit",
+					"protocol": "tcp",
+					"destinationPort": 22
 				}
 			]
-		}	
+		}
 	]
 }

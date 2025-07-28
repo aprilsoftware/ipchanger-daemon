@@ -5,11 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class IpCConfig
 {
-    private List<IpCSecurityGroup> securityGroups;
+    private List<IpCProvider> providers;
     private long delay;
     private long frequency;
     private URL url;
@@ -17,7 +18,7 @@ public class IpCConfig
 
     public IpCConfig()
     {
-        securityGroups = new ArrayList<>();
+        providers = new ArrayList<>();
     }
 
     public long getDelay()
@@ -40,12 +41,12 @@ public class IpCConfig
         this.frequency = frequency;
     }
 
-    public URL getURL()
+    public URL getUrl()
     {
         return url;
     }
 
-    public void setURL(URL url)
+    public void setUrl(URL url)
     {
         this.url = url;
     }
@@ -60,20 +61,22 @@ public class IpCConfig
         this.verbose = verbose;
     }
 
-    public List<IpCSecurityGroup> getSecurityGroups()
+    public List<IpCProvider> getProviders()
     {
-        return securityGroups;
+        return providers;
+    }
+
+    public void setProviders(List<IpCProvider> providers)
+    {
+        this.providers = providers;
     }
 
     public static IpCConfig load(String configFilePath)
     {
-        String config;
-
         try
         {
-            config = new String(Files.readAllBytes(Paths.get(configFilePath)));
-
-            return new ObjectMapper().readValue(config, IpCConfig.class);
+            return new ObjectMapper().readValue(Files
+                    .readString(Paths.get(configFilePath)), IpCConfig.class);
         }
         catch (Exception e)
         {

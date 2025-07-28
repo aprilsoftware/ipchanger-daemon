@@ -1,15 +1,15 @@
-package com.aprilsoftware.ipchanger;
+package com.aprilsoftware.ipchanger.aws;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IpCSecurityGroup
+public class AwsSecurityGroup
 {
     private String groupId;
     private String region;
-    private List<IpCPermission> permissions;
+    private List<AwsPermission> permissions;
 
-    public IpCSecurityGroup()
+    public AwsSecurityGroup()
     {
         permissions = new ArrayList<>();
     }
@@ -34,12 +34,12 @@ public class IpCSecurityGroup
         this.region = region;
     }
 
-    public List<IpCPermission> getPermissions()
+    public List<AwsPermission> getPermissions()
     {
         return permissions;
     }
 
-    public void setPermissions(List<IpCPermission> permissions)
+    public void setPermissions(List<AwsPermission> permissions)
     {
         this.permissions = permissions;
     }

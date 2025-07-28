@@ -1,15 +1,15 @@
-package com.aprilsoftware.ipchanger;
+package com.aprilsoftware.ipchanger.aws;
 
 import software.amazon.awssdk.services.ec2.model.IpPermission;
 import software.amazon.awssdk.services.ec2.model.IpRange;
 
-public class IpCPermission
+public class AwsPermission
 {
     private String ipProtocol;
     private int fromPort;
     private int toPort;
 
-    public IpCPermission()
+    public AwsPermission()
     {
     }
 

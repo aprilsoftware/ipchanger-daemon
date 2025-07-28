@@ -25,7 +25,7 @@ public class IpDiscovery
 
         try
         {
-            connection = (HttpURLConnection) config.getURL().openConnection();
+            connection = (HttpURLConnection) config.getUrl().openConnection();
 
             connection.setConnectTimeout(10000);
             connection.setReadTimeout(10000);

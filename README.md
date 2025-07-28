@@ -1,65 +1,124 @@
 # ipchanger-daemon
 
-ipchanger-daemon is a deamon that automatically updates AWS security group rules with your current public dynamic IP address.
+*ipchanger-daemon* is a small Java service that keeps **remote‑access firewalls in sync with your current, dynamic WAN IP address**.
 
-It could be helpfull when you want to access your EC2 VMs only from your dynamic public IP which by definition changes from time to time.
+Originally written for AWS Security Groups, it now also supports the **OVHcloud Edge Network Firewall**—so you can protect EC2 instances *and* OVH VPS/dedicated servers from the same daemon.
 
-# Build
+---
 
-Java 11+, maven and git are required to build and compile the source.
+## Features
 
+- **Multiple providers**:
+  - `aws` – updates one or more security‑groups.
+  - `ovh` – updates one or more edge‑firewall rules (per‑IP firewall).
+- **Polymorphic JSON config** – extend with new providers without touching the core daemon.
+- **Runs as a foreground process, systemd service, or Apache ****\`\`**** daemon**.
+- Java 11+
+
+---
+
+## Build
+
+Java 11+, Maven and Git are required:
+
+```bash
     git clone https://github.com/aprilsoftware/ipchanger-daemon.git
     cd ipchanger-daemon
     mvn package
+```
 
-The target folder contains the ipchanger-daemon.jar executable and the required libraries.
+`target/` will now contain the runnable `ipchanger-daemon.jar`.
 
-# .aws/credentials
+---
 
-ipchanger-daemon uses the AWS API java library from Amazon which requires the credentials to be set using the credentials file in the .aws folder. The .aws folder must be located in the current folder of the application.
+## Credentials
 
-    [default]
-    aws_access_key_id = xxx
-    aws_secret_access_key = xxx
+### AWS
 
-# Configure the security groups
+The AWS SDK looks for credentials in `~/.aws/credentials`. The simplest setup is the *default* profile:
 
-Create a file named ipchanger.json (in the ipchanger-daemon folder)
+```ini
+[default]
+aws_access_key_id = XXX
+aws_secret_access_key = YYY
+```
 
+---
+
+### OVHcloud
+
+Create an **API Key**:
+
+Rights:
+```bash
+GET: /ip/*/firewall/*/rule/*
+POST: /ip/*/firewall/*/rule
+DELETE: /ip/*/firewall/*/rule/*
+```
+
+---
+
+## Configuration
+
+Create `ipchanger.json` in the working directory. Below is a **minimal dual‑provider example**:
+
+```jsonc
+{
+  "delay": 0,
+  "frequency": 5000,
+  "url": "https://api.ipify.org",
+  "verbose": false,
+
+  "providers": [
     {
-    	"delay": 0,
-    	"frequency": 5000,
-    	"url": "https://api.ipify.org",
-		"verbose": false,
-    	"securityGroups": [
-		    {
-                "groupId": "sg-xxxxxxxxxxxxxx",
-			    "region": "eu-central-1",
-			    "permissions": [
-    				{
-					    "ipProtocol": "tcp",
-					    "fromPort": 22,
-					    "toPort": 22
-				    }
-			    ]
-		    }	
-	    ]
+      "type": "aws",
+      "securityGroups": [
+        {
+          "groupId": "sg-xxxxxxxxxxxx",
+          "region": "eu-central-1",
+          "permissions": [
+            { "ipProtocol": "tcp", "fromPort": 22, "toPort": 22 }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ovh",
+      "endpoint": "eu",
+      "ip": "100.0.0.1",
+      "firewallRules": [
+        {
+          "sequence": 0,                // 0‑19
+          "action": "permit",
+          "protocol": "tcp",
+          "destinationPort": 22
+        }
+      ]
     }
+  ]
+}
+```
+
+---
 
 
-# Run it
+## Running
 
-    java -jar target/ipchanger-daemon.jar ipchanger.json
+```bash
+java -jar target/ipchanger-daemon.jar ipchanger.json
+```
+---
 
-
-# Run it as a daemon on Linux
+## Run it as a daemon on Linux
 
 You can run ipchanger-changer as a daemon using [jsvc](https://commons.apache.org/proper/commons-daemon/jsvc.html).
 
+---
 
-# Debian package
+## Debian package
 
-You can download the latest Debian package from the [release page](https://github.com/aprilsoftware/ipchanger-daemon/releases).
+Download the latest Debian package from the [release page](https://github.com/aprilsoftware/ipchanger-daemon/releases).
 
+---
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
