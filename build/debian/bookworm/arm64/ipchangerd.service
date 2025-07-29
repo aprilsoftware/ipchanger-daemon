@@ -8,7 +8,7 @@ Environment=IPCHANGER_HOME=/usr/local/ipchanger
 Environment=IPCHANGER_ETC=/etc/ipchanger
 Environment=IPCHANGER_VAR=/var/log/ipchanger
 Environment=IPCHANGER_DAEMON=com.aprilsoftware.ipchanger.IpCDaemon
-Environment=CLASS_PATH=${IPCHANGER_HOME}/lib/ipchanger-daemon-1.0.jar
+Environment=CLASS_PATH=${IPCHANGER_HOME}/lib/ipchanger-daemon-2.0.jar
 Environment=JAVA_OPTS="-Xmx1024m"
 Environment=PID=/var/run/ipchangerd.pid
 Environment=ARGS=${IPCHANGER_ETC}/ipchanger.json
