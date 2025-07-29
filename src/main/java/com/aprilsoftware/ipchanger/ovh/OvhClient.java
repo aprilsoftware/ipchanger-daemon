@@ -4,8 +4,10 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.util.HexFormat;
 
 import com.aprilsoftware.ipchanger.IpCException;
 
@@ -98,7 +100,7 @@ public class OvhClient
 
         if (response.statusCode() >= 300)
         {
-            if (ignoreNotFound && response.statusCode() == 404)
+            if (ignoreNotFound && response.statusCode() >= 404)
             {
                 return null;
             }
@@ -116,31 +118,19 @@ public class OvhClient
     private static String hash(String text)
     {
         MessageDigest md;
-        byte[] sha1hash;
-        StringBuffer sb;
+        byte[] digest;
 
         try
         {
             md = MessageDigest.getInstance("SHA-1");
-
-            sha1hash = new byte[40];
-
-            md.update(text.getBytes("iso-8859-1"), 0, text.length());
-
-            sha1hash = md.digest();
-
-            sb = new StringBuffer();
-
-            for (int i = 0; i < sha1hash.length; i++)
-            {
-                sb.append(Integer.toString((sha1hash[i] & 0xff) + 0x100, 16).substring(1));
-            }
-
-            return sb.toString();
         }
         catch (Exception e)
         {
             throw new IpCException(e);
         }
+
+        digest = md.digest(text.getBytes(StandardCharsets.UTF_8));
+
+        return HexFormat.of().formatHex(digest);
     }
 }
