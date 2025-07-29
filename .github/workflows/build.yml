@@ -9,103 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
+        cache: maven
         server-id: github
         settings-path: ${{ github.workspace }}
 
     - name: Build IP Changer Daemon
       run: |
         mvn -B install --file pom.xml
-      
-    - name: Create Debian 11 package (amd64)
-      run: |
-        mkdir -p debian/amd64/bullseye/etc/systemd/system/multi-user.target.wants
-        mkdir -p debian/amd64/bullseye/etc/ipchanger/.aws
-        mkdir -p debian/amd64/bullseye/usr/local/ipchanger/lib
-        mkdir -p debian/amd64/bullseye/usr/share/ipchanger
-        mkdir -p debian/amd64/bullseye/var/log/ipchanger
-        mkdir -p debian/amd64/bullseye/DEBIAN
-        cp LICENSE debian/amd64/bullseye/usr/local/ipchanger
-        cp target/ipchanger-daemon*.jar debian/amd64/bullseye/usr/local/ipchanger/lib
-        cp target/lib/*.jar debian/amd64/bullseye/usr/local/ipchanger/lib
-        cp build/debian/bullseye/amd64/ipchangerd.service debian/amd64/bullseye/etc/systemd/system
-        ln -s debian/amd64/bullseye/etc/systemd/system/ipchangerd.service debian/amd64/bullseye/etc/systemd/system/multi-user.target.wants/ipchangerd.service
-        cp build/ipchanger.json debian/amd64/bullseye/usr/share/ipchanger
-        cp build/logging.properties debian/amd64/bullseye/usr/share/ipchanger
-        cp build/aws/credentials debian/amd64/bullseye/usr/share/ipchanger
-        cp build/debian/bullseye/amd64/postinst.sh debian/amd64/bullseye/DEBIAN/postinst
-        chmod +x debian/amd64/bullseye/DEBIAN/postinst
-
-    - name: Build Debian 11 package (amd64)
-      uses: jiro4989/build-deb-action@v3
-      with:
-        package: ipchanger-daemon
-        package_root: debian/amd64/bullseye
-        maintainer: cedric.nanni@aprilsoftware.com
-        version: ${{ github.ref }}
-        arch: 'amd64'
-        depends: 'openjdk-11-jre-headless, jsvc'
-        desc: 'IP Changer Daemon'
-
-    - name: Upload Debian 11 package (amd64)
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ipchanger-daemon_${{ github.event.release.tag_name }}_amd64.deb
-        asset_name: ipchanger-daemon_${{ github.event.release.tag_name }}_amd64_bullseye.deb
-        asset_content_type: application/octet-stream
-
-
-
-    - name: Create Debian 11 package (arm64)
-      run: |
-        mkdir -p debian/arm64/bullseye/etc/systemd/system/multi-user.target.wants
-        mkdir -p debian/arm64/bullseye/etc/ipchanger/.aws
-        mkdir -p debian/arm64/bullseye/usr/local/ipchanger/lib
-        mkdir -p debian/arm64/bullseye/usr/share/ipchanger
-        mkdir -p debian/arm64/bullseye/var/log/ipchanger
-        mkdir -p debian/arm64/bullseye/DEBIAN
-        cp LICENSE debian/arm64/bullseye/usr/local/ipchanger
-        cp target/ipchanger-daemon*.jar debian/arm64/bullseye/usr/local/ipchanger/lib
-        cp target/lib/*.jar debian/arm64/bullseye/usr/local/ipchanger/lib
-        cp build/debian/bullseye/arm64/ipchangerd.service debian/arm64/bullseye/etc/systemd/system
-        ln -s debian/arm64/bullseye/etc/systemd/system/ipchangerd.service debian/arm64/bullseye/etc/systemd/system/multi-user.target.wants/ipchangerd.service
-        cp build/ipchanger.json debian/arm64/bullseye/usr/share/ipchanger
-        cp build/logging.properties debian/arm64/bullseye/usr/share/ipchanger
-        cp build/aws/credentials debian/arm64/bullseye/usr/share/ipchanger
-        cp build/debian/bullseye/arm64/postinst.sh debian/arm64/bullseye/DEBIAN/postinst
-        chmod +x debian/arm64/bullseye/DEBIAN/postinst
-
-    - name: Build Debian 11 package (arm64)
-      uses: jiro4989/build-deb-action@v3
-      with:
-        package: ipchanger-daemon
-        package_root: debian/arm64/bullseye
-        maintainer: cedric.nanni@aprilsoftware.com
-        version: ${{ github.ref }}
-        arch: 'arm64'
-        depends: 'openjdk-11-jre-headless, jsvc'
-        desc: 'IP Changer Daemon'
-
-    - name: Upload Debian 11 package (arm64)
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ipchanger-daemon_${{ github.event.release.tag_name }}_arm64.deb
-        asset_name: ipchanger-daemon_${{ github.event.release.tag_name }}_arm64_bullseye.deb
-        asset_content_type: application/octet-stream
-
-        
 
     - name: Create Debian 12 package (amd64)
       run: |
@@ -127,7 +44,7 @@ jobs:
         chmod +x debian/amd64/bookworm/DEBIAN/postinst
 
     - name: Build Debian 12 package (amd64)
-      uses: jiro4989/build-deb-action@v3
+      uses: jiro4989/build-deb-action@v4
       with:
         package: ipchanger-daemon
         package_root: debian/amd64/bookworm
@@ -169,7 +86,7 @@ jobs:
         chmod +x debian/arm64/bookworm/DEBIAN/postinst
 
     - name: Build Debian 12 package (arm64)
-      uses: jiro4989/build-deb-action@v3
+      uses: jiro4989/build-deb-action@v4
       with:
         package: ipchanger-daemon
         package_root: debian/arm64/bookworm

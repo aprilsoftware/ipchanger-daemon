@@ -98,7 +98,7 @@ public class OvhClient
 
         if (response.statusCode() >= 300)
         {
-            if (ignoreNotFound && response.statusCode() >= 404)
+            if (ignoreNotFound && response.statusCode() == 404)
             {
                 return null;
             }
