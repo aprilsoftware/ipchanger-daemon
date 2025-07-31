@@ -29,7 +29,7 @@ public class IpChanger
 
             if (command != null && !command.isBlank())
             {
-                LOGGER.log(Level.INFO, "Running post IP change command");
+                LOGGER.log(Level.INFO, "Running Post-IP change command");
 
                 runCommand(command);
             }
@@ -51,18 +51,24 @@ public class IpChanger
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(process.getInputStream())))
                 {
-                    StringBuilder output;
+                    StringBuilder sb;
+                    String output;
                     String line;
 
-                    output = new StringBuilder();
+                    sb = new StringBuilder();
 
                     while ((line = reader.readLine()) != null)
                     {
-                        output.append(line);
-                        output.append("\n");
+                        sb.append(line);
+                        sb.append("\n");
                     }
 
-                    LOGGER.log(Level.INFO, output.toString());
+                    output = sb.toString();
+
+                    if (!output.trim().isBlank())
+                    {
+                        LOGGER.log(Level.INFO, output.toString());
+                    }
                 }
                 catch (IOException e)
                 {
@@ -72,9 +78,13 @@ public class IpChanger
 
             exitCode = process.waitFor();
 
-            if (exitCode != 0)
+            if (exitCode == 0)
             {
-                LOGGER.log(Level.SEVERE, "Command failed with exit code " + exitCode);
+                LOGGER.log(Level.INFO, "Post-IP change command successfully executed");
+            }
+            else
+            {
+                LOGGER.log(Level.SEVERE, "Post-IP change command failed with exit code " + exitCode);
             }
         }
         catch (IOException | InterruptedException e)
