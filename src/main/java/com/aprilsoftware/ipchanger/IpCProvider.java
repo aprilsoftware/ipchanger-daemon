@@ -10,7 +10,23 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = AwsProvider.class, name = "aws"),
     @JsonSubTypes.Type(value = OvhProvider.class, name = "ovh")
 })
-public interface IpCProvider
+public abstract class IpCProvider
 {
-    void changeIp(String newIp);
+    private String postIpChangeCommand;
+
+    public IpCProvider()
+    {
+    }
+
+    public String getPostIpChangeCommand()
+    {
+        return postIpChangeCommand;
+    }
+
+    public void setPostIpChangeCommand(String postIpChangeCommand)
+    {
+        this.postIpChangeCommand = postIpChangeCommand;
+    }
+
+    public abstract void changeIp(String newIp);
 }

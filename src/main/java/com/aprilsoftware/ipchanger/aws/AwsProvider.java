@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.ec2.model.DescribeSecurityGroupRulesRespo
 import software.amazon.awssdk.services.ec2.model.Filter;
 import software.amazon.awssdk.services.ec2.model.RevokeSecurityGroupIngressRequest;
 
-public class AwsProvider implements IpCProvider
+public class AwsProvider extends IpCProvider
 {
     private List<AwsSecurityGroup> securityGroups;
 

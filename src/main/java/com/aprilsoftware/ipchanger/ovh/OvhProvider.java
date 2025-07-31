@@ -8,7 +8,7 @@ import com.aprilsoftware.ipchanger.IpCException;
 import com.aprilsoftware.ipchanger.IpCProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class OvhProvider implements IpCProvider
+public class OvhProvider extends IpCProvider
 {
     private String endpoint;
     private String appKey;
