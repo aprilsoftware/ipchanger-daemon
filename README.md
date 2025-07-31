@@ -93,7 +93,8 @@ Create `ipchanger.json` in the working directory. Below is a **minimal dual‑pr
           "protocol": "tcp",
           "destinationPort": 22
         }
-      ]
+      ],
+      "postIpChangeCommand": ""
     }
   ]
 }
