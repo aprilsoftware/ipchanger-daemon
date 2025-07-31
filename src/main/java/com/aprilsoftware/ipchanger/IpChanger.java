@@ -29,8 +29,6 @@ public class IpChanger
 
             if (command != null && !command.isBlank())
             {
-                LOGGER.log(Level.INFO, "Running Post-IP change command");
-
                 runCommand(command);
             }
         }
@@ -40,6 +38,8 @@ public class IpChanger
     {
         Process process;
         int exitCode;
+
+        LOGGER.log(Level.INFO, "Running Post-IP change command");
 
         try
         {
