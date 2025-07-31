@@ -80,7 +80,8 @@ Create `ipchanger.json` in the working directory. Below is a **minimal dual‑pr
             { "ipProtocol": "tcp", "fromPort": 22, "toPort": 22 }
           ]
         }
-      ]
+      ],
+      "postIpChangeCommand": ""         // optional
     },
     {
       "type": "ovh",
@@ -91,10 +92,11 @@ Create `ipchanger.json` in the working directory. Below is a **minimal dual‑pr
           "sequence": 0,                // 0‑19
           "action": "permit",
           "protocol": "tcp",
+          "sourcePort": 0,              // optional
           "destinationPort": 22
         }
       ],
-      "postIpChangeCommand": ""
+      "postIpChangeCommand": ""         // optional
     }
   ]
 }
