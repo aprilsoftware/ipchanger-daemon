@@ -43,13 +43,26 @@ public class IpChanger
         {
             String command;
 
-            provider.changeIp(ip);
-
-            command = provider.getPostIpChangeCommand();
-
-            if (command != null && !command.isBlank())
+            try
             {
-                runCommand(command);
+                provider.changeIp(ip);
+
+                command = provider.getPostIpChangeCommand();
+
+                if (command != null && !command.isBlank())
+                {
+                    runCommand(command);
+                }
+            }
+            catch (Throwable t)
+            {
+                try
+                {
+                    LOGGER.log(Level.SEVERE, t.getMessage(), t);
+                }
+                catch (Throwable th)
+                {
+                }
             }
         }
     }
