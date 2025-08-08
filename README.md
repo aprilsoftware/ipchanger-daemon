@@ -2,7 +2,7 @@
 
 *ipchanger-daemon* is a small Java service that keeps **remote‑access firewalls in sync with your current, dynamic WAN IP address**.
 
-Originally written for AWS Security Groups, it now also supports the **OVHcloud Edge Network Firewall**—so you can protect EC2 instances *and* OVH VPS/dedicated servers from the same daemon.
+Originally written for AWS Security Groups, it now also supports the **OVHcloud Edge Network Firewall**—and even custom **local commands**—so you can protect EC2 instances, OVH VPS/dedicated servers, and trigger any local automation from the same daemon.
 
 ---
 
@@ -11,6 +11,7 @@ Originally written for AWS Security Groups, it now also supports the **OVHcloud 
 - **Multiple providers**:
   - `aws` – updates one or more security‑groups.
   - `ovh` – updates one or more edge‑firewall rules (per‑IP firewall).
+  - `command` – runs a local shell command when the IP changes.
 - **Polymorphic JSON config** – extend with new providers without touching the core daemon.
 - **Runs as a foreground process, systemd service, or Apache ****\`\`**** daemon**.
 - Java 11+
@@ -58,6 +59,19 @@ DELETE: /ip/*/firewall/*/rule/*
 
 ---
 
+### Command provider
+
+No credentials are required. The daemon simply runs the configured command locally.
+The command can include placeholders such as {ip} to inject the newly detected IP address.
+
+Example:
+
+```bash
+echo "New IP is {newIp}" >> /var/log/ipchanges.log
+```
+
+---
+
 ## Configuration
 
 Create `ipchanger.json` in the working directory. Below is a **minimal dual‑provider example**:
@@ -97,6 +111,10 @@ Create `ipchanger.json` in the working directory. Below is a **minimal dual‑pr
         }
       ],
       "postIpChangeCommand": ""         // optional
+    },
+    {
+      "type": "command",
+      "ipChangeCommand": "echo 'My new IP is {newIp}'"
     }
   ]
 }

@@ -37,7 +37,7 @@ public class IpChanger
         this.config = config;
     }
 
-    public void changeIp(String ip)
+    public void changeIp(String newIp)
     {
         for (IpCProvider provider : config.getProviders())
         {
@@ -45,13 +45,13 @@ public class IpChanger
 
             try
             {
-                provider.changeIp(ip);
+                provider.changeIp(newIp);
 
                 command = provider.getPostIpChangeCommand();
 
                 if (command != null && !command.isBlank())
                 {
-                    runCommand(command);
+                    runCommand(command.replace("{newIp}", newIp));
                 }
             }
             catch (Throwable t)
@@ -67,7 +67,7 @@ public class IpChanger
         }
     }
 
-    private void runCommand(String command)
+    public static void runCommand(String command)
     {
         Process process;
         int exitCode;
